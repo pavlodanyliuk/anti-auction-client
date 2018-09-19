@@ -67,6 +67,8 @@ Thumbs.db
 /nbdist/
 /.nb-gradle/
 
+.editorconfig
+
 ### Angular ###
 ## Angular ##
 # compiled output
