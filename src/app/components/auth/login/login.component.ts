@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ToastService} from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private toastService: ToastService) { }
 
   ngOnInit() {
+    this.toastService.error('hello');
   }
-
 }
