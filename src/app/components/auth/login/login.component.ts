@@ -11,6 +11,5 @@ export class LoginComponent implements OnInit {
   constructor(private toastService: ToastService) { }
 
   ngOnInit() {
-    this.toastService.error('hello');
   }
 }

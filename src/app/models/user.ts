@@ -5,9 +5,9 @@ export class User {
   name: string;
   surname: string;
   email: string;
-  birth: Date;
-  phone: string;
-  sex: boolean;
-  // image: string;
+  birth?: Date;
+  phone?: string;
+  sex?: boolean;
+  // image?: string;
   // notiffication_sett: boolean;
 }

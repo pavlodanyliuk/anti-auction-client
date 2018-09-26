@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {Injectable, NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -51,6 +51,7 @@ export class AddressInterceptor implements HttpInterceptor {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     ToastrModule.forRoot()
   ],
   providers: [

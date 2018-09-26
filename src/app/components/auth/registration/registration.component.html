@@ -2,7 +2,7 @@
 
   <div class="form-group">
 
-    <input type="text" id="name" formControlName="name" placeholder="Name" />
+    <input type="text" id="name" formControlName="name" placeholder="Name" class="form-control"/>
 
     <div class="error" *ngIf="isControlInvalid('name')">
       First Name is required
@@ -13,7 +13,7 @@
 
   <div class="form-group">
 
-    <input type="text" id="surname" formControlName="surname" placeholder="Surname" />
+    <input type="text" id="surname" formControlName="surname" placeholder="Surname" class="form-control"/>
 
     <div class="error" *ngIf="isControlInvalid('surname')">
       Last Name is required
@@ -24,7 +24,7 @@
 
   <div class="form-group">
 
-    <input type="text" id="email" formControlName="email" placeholder="Email" />
+    <input type="text" id="email" formControlName="email" placeholder="Email" class="form-control"/>
 
     <div class="error" *ngIf="isControlInvalid('email')">
       Email is invalid
@@ -35,7 +35,7 @@
 
   <div class="form-group">
 
-    <input type="text" id="login" formControlName="login" placeholder="Login" />
+    <input type="text" id="login" formControlName="login" placeholder="Login" class="form-control"/>
 
     <div class="error" *ngIf="isControlInvalid('login')">
       Login cannot be shorter than 3 symbols
@@ -46,10 +46,10 @@
 
   <div class="form-group">
 
-    <input type="password" id="password" formControlName="password" placeholder="Password" />
+    <input type="password" id="password" formControlName="password" placeholder="Password" class="form-control"/>
 
     <div class="error" *ngIf="isControlInvalid('password')">
-      Password cannot be shorter then 3 symbols
+      Password cannot be shorter then 6 symbols
     </div>
 
   </div>
@@ -57,35 +57,44 @@
 
   <div class="form-group">
 
-    <input type="password" id="confirmpass" formControlName="confirmpass" placeholder="Confirm password" />
+    <input type="password" id="confirmpass" formControlName="confirmpass" placeholder="Confirm password" class="form-control"/>
 
-    <div class="error" *ngIf="isControlInvalid('name')">
-      First Name is required
+    <div class="error" *ngIf="isControlInvalid('confirmpass')">
+      Bad confirmation
     </div>
 
   </div>
 
   <div class="form-group">
-    <input type="date" id="birth" formControlName="birth" placeholder="Date of Birth" />
+    <input type="date" id="birth" formControlName="birth" placeholder="Date of Birth" class="form-control"/>
   </div>
 
-  <div class="form-group">
+  <div class="form-group radio">
 
     <label> Male:
-      <input type="radio" id="sex" formControlName="sex" value="male"/>
+      <input type="radio" id="sex" formControlName="sex" value="male" class="radio"/>
     </label>
 
     <label> Female:
-      <input type="radio" id="sex" formControlName="sex" value="female"/>
+      <input type="radio" id="sex" formControlName="sex" value="female" class="radio"/>
     </label>
 
   </div>
 
   <div class="form-group">
-    <input type="text" id="phone" formControlName="phone" placeholder="Phone number" />
+    <input type="text" id="phone" formControlName="phone" placeholder="Phone number" class="form-control"/>
   </div>
 
-  <button type="submit">отправить</button>
+
+  <div [hidden]="!loading" class="alert alert-primary mt-2">
+    Please wait...
+  </div>
+  <div [hidden]="!error" class="alert alert-danger mt-2">
+    Some errors occurred, try again
+  </div>
+
+  <button type="submit" [disabled]="!reactiveForm.valid" class="btn btn-default">Registration</button>
+
 </form>
 
 <div>

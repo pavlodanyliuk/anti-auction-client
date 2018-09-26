@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {passConfirm} from '../../../utils/validation-tools';
+import {User} from '../../../models/user';
+import {emptyString2Undefined} from '../../../utils/transformation-tools';
+import {ToastService} from '../../../services/toast/toast.service';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -10,8 +14,14 @@ import {passConfirm} from '../../../utils/validation-tools';
 export class RegistrationComponent implements OnInit {
 
   reactiveForm: FormGroup;
+  
+  loading = false;
+  error = false;
 
-  constructor( private fb: FormBuilder ) { }
+  constructor( private fb: FormBuilder,
+               private userService: UserService,
+               private toastService: ToastService
+               ) { }
 
   ngOnInit() {
     this.initForm();
@@ -19,17 +29,51 @@ export class RegistrationComponent implements OnInit {
 
   initForm() {
     this.reactiveForm = this.fb.group({
-      login: ['', Validators.required, Validators.minLength(3)],
+      login: ['', [ Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_]*$'),
+        Validators.minLength(3),
+        Validators.maxLength(30) ]],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confpass: ['', Validators.required],
+      password: ['', [ Validators.required,
+        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)*$'),
+        Validators.minLength(6),
+        Validators.maxLength(30) ]],
+      confirmpass: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       birth: [''],
       sex: [''],
       phone: ['', Validators.pattern(/[0-9]/)],
     },
-    {validator: passConfirm('password', 'confpass')});
+    {validator: passConfirm('password', 'confirmpass')});
+  }
+
+  onSubmit() {
+    this.loading = true;
+    this.error = false;
+    
+    const controls = this.reactiveForm.controls;
+    if (this.reactiveForm.invalid) {
+      Object.keys(controls)
+        .forEach(controlName => controls[controlName].markAsTouched());
+      return;
+    }
+
+    const user = this.transformToUser();
+
+    console.log(user);
+
+    this.userService.register(user).subscribe(
+      response => {
+        this.loading = false;
+        this.toastService.success('Account registered successfully');
+      },
+      error => {
+        this.error = true;
+        this.loading = false;
+      }
+    );
+
   }
 
   isControlInvalid(controlName: string): boolean {
@@ -37,21 +81,31 @@ export class RegistrationComponent implements OnInit {
     return control.invalid && control.touched;
   }
 
-  onSubmit() {
-    const controls = this.reactiveForm.controls;
+  private transformToUser(): User {
 
-    /** Проверяем форму на валидность */
-    if (this.reactiveForm.invalid) {
-      /** Если форма не валидна, то помечаем все контролы как touched*/
-      Object.keys(controls)
-        .forEach(controlName => controls[controlName].markAsTouched());
+    const user = new User();
 
-      /** Прерываем выполнение метода*/
-      return;
+
+    user.login = emptyString2Undefined(this.reactiveForm.controls['login'].value);
+    user.email = emptyString2Undefined(this.reactiveForm.controls['email'].value);
+    user.name = emptyString2Undefined(this.reactiveForm.controls['name'].value);
+    user.surname = emptyString2Undefined(this.reactiveForm.controls['surname'].value);
+    user.birth = emptyString2Undefined(this.reactiveForm.controls['birth'].value);
+    user.password = emptyString2Undefined(this.reactiveForm.controls['password'].value);
+    user.phone = emptyString2Undefined(this.reactiveForm.controls['phone'].value);
+
+    const sex: string = this.reactiveForm.controls['sex'].value;
+
+    if ( sex === 'male' ) {
+      user.sex = true;
+    } else if ( sex === 'female' ) {
+      user.sex = false;
     }
 
-    /** TODO: Обработка данных формы */
-    console.log(this.reactiveForm.value);
+
+    return user;
   }
+
+
 
 }

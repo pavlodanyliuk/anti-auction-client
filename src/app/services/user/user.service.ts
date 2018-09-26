@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../../models/user';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class UserService {
   }
 
   register(user: User) {
-    return this.http.post(this.base_url + '/register', user);
+    return new Observable();
+    // return this.http.post(this.base_url + '/register', user);
   }
 
   update(user: User) {
