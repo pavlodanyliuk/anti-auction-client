@@ -67,11 +67,12 @@ export class RegistrationComponent implements OnInit {
       response => {
         this.loading = false;
         this.toastService.success('Account registered successfully');
-      },
+      }/*,
       error => {
+        console.log(error);
         this.error = true;
         this.loading = false;
-      }
+      }*/
     );
 
   }
@@ -86,13 +87,13 @@ export class RegistrationComponent implements OnInit {
     const user = new User();
 
 
-    user.login = emptyString2Undefined(this.reactiveForm.controls['login'].value);
-    user.email = emptyString2Undefined(this.reactiveForm.controls['email'].value);
-    user.name = emptyString2Undefined(this.reactiveForm.controls['name'].value);
-    user.surname = emptyString2Undefined(this.reactiveForm.controls['surname'].value);
-    user.birth = emptyString2Undefined(this.reactiveForm.controls['birth'].value);
-    user.password = emptyString2Undefined(this.reactiveForm.controls['password'].value);
-    user.phone = emptyString2Undefined(this.reactiveForm.controls['phone'].value);
+    user.login = this.reactiveForm.controls['login'].value;
+    user.email = this.reactiveForm.controls['email'].value;
+    user.name = this.reactiveForm.controls['name'].value;
+    user.surname = this.reactiveForm.controls['surname'].value;
+    user.birth = this.reactiveForm.controls['birth'].value;
+    user.password = this.reactiveForm.controls['password'].value;
+    user.phone = this.reactiveForm.controls['phone'].value;
 
     const sex: string = this.reactiveForm.controls['sex'].value;
 

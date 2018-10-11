@@ -17,8 +17,9 @@ export class UserService {
   }
 
   register(user: User) {
-    return new Observable();
-    // return this.http.post(this.base_url + '/register', user);
+    console.log('in user.service');
+    console.log(user);
+    return this.http.post('/user/', user);
   }
 
   update(user: User) {

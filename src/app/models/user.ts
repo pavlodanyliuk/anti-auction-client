@@ -8,6 +8,7 @@ export class User {
   birth?: Date;
   phone?: string;
   sex?: boolean;
-  // image?: string;
-  // notiffication_sett: boolean;
+  image?: string;
+  notificationSettIsOn: boolean;
+  regDate: Date;
 }
